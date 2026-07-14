@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { User } from 'lucide-react';
 import ResourceCounter from './ResourceCounter';
 import InventoryList from './InventoryList';
 import CharacteristicsTable from './CharacteristicsTable';
+import TypewriterText from './TypewriterText';
 
 /**
  * Generic, reusable character sheet.
@@ -17,6 +18,7 @@ import CharacteristicsTable from './CharacteristicsTable';
 export default function CharacterPage({ character }) {
   const [resources, setResources] = useState(character.resources);
   const [inventory, setInventory] = useState(character.inventory);
+  const photoRef = useRef(null);
 
   const updateResource = (key, value) => {
     setResources((prev) =>
@@ -28,6 +30,22 @@ export default function CharacterPage({ character }) {
   const removeItem = (idx) =>
     setInventory((prev) => prev.filter((_, i) => i !== idx));
 
+  // Subtle "pinned evidence photo" tilt that follows the cursor — applied
+  // via direct style mutation (not React state) so it stays smooth and
+  // never triggers a re-render on every mouse pixel.
+  const handlePhotoMove = (e) => {
+    const el = photoRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width - 0.5;
+    const py = (e.clientY - rect.top) / rect.height - 0.5;
+    el.style.transform = `perspective(700px) rotateX(${(-py * 10).toFixed(2)}deg) rotateY(${(px * 10).toFixed(2)}deg) scale(1.03)`;
+  };
+  const resetPhotoTilt = () => {
+    const el = photoRef.current;
+    if (el) el.style.transform = 'perspective(700px) rotateX(0deg) rotateY(0deg) scale(1)';
+  };
+
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 pb-32 pt-8">
       {/* Header */}
@@ -35,24 +53,30 @@ export default function CharacterPage({ character }) {
         <h1 className="font-display text-5xl sm:text-6xl text-bone tracking-wide">
           {character.name}
         </h1>
-        <p className="font-body text-crimson-light text-sm sm:text-base mt-1 uppercase tracking-wide">
-          {character.tagline}
+        <p className="font-body text-crimson-light text-sm sm:text-base mt-1 uppercase tracking-wide min-h-[1.5em]">
+          <TypewriterText text={character.tagline} />
         </p>
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6 mb-8">
-        {/* Photo placeholder */}
-        <div className="aspect-[3/4] w-full max-w-[280px] bg-noir-panel border border-noir-border flex flex-col items-center justify-center gap-2 mx-auto lg:mx-0">
+        {/* Photo placeholder — tilts gently toward the cursor, like a pinned evidence photo */}
+        <div
+          ref={photoRef}
+          onMouseMove={handlePhotoMove}
+          onMouseLeave={resetPhotoTilt}
+          style={{ transform: 'perspective(700px) rotateX(0deg) rotateY(0deg) scale(1)', transition: 'transform 0.15s ease-out' }}
+          className="aspect-[3/4] w-full max-w-[280px] bg-noir-panel border border-noir-border flex flex-col items-center justify-center gap-2 mx-auto lg:mx-0 shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
+        >
           {character.photoPlaceholder ? (
             <img
               src={character.photoPlaceholder}
               alt={character.name}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover pointer-events-none"
             />
           ) : (
             <>
-              <User className="w-16 h-16 text-bone/20" strokeWidth={1} />
-              <span className="text-bone/30 text-xs font-body uppercase tracking-widest">
+              <User className="w-16 h-16 text-bone/20 pointer-events-none" strokeWidth={1} />
+              <span className="text-bone/30 text-xs font-body uppercase tracking-widest pointer-events-none">
                 Фото відсутнє
               </span>
             </>
