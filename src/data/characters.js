@@ -4,6 +4,8 @@
 // threshold >= roll. Hard has the lowest threshold (narrowest window,
 // best/rarest success), Easy has the highest threshold (widest window).
 
+import angelinaPhoto from '../assets/angelina.jpg';
+
 export const CHARACTERISTIC_NAMES = [
   'Сила',
   'Володіння револьвером',
@@ -24,7 +26,7 @@ export const characters = [
       'Колишня співачка кабаре, що втратила голос у пожежі й знайшла новий інструмент — револьвер з перламутровою рукояткою. ' +
       'Ангеліна працює на боса Східного району вже сім років і жодного разу не схибила. Курить одну цигарку за іншою, ' +
       'носить фото доньки в нагрудній кишені та ніколи не питає, за що саме платять.',
-    photoPlaceholder: null,
+    photoPlaceholder: angelinaPhoto,
     resources: [
       { key: 'health', label: 'Здоров\'я', icon: 'Heart', value: 12, min: 0, max: 12 },
       { key: 'sanity', label: 'Глузд', icon: 'Brain', value: 60, min: 0, max: 99 },
