@@ -9,10 +9,10 @@ import { EXTRA_GALLERY_SLOTS } from '../data/gallery';
  * a photo there once and it shows up both on the character page and here.
  * Extra location tiles come from src/data/gallery.js.
  *
- * On desktop/mouse devices, a "flashlight" follows the cursor over the
- * board — the rest of the grid dims, like scanning evidence photos in a
- * dark room. Disabled on touch screens (md:block) since it needs a real
- * pointer, not a tap.
+ * A "flashlight" follows the pointer over the board — the rest of the
+ * grid dims, like scanning evidence photos in a dark room. Works with a
+ * mouse (hover) and, via touchmove, by dragging a finger across the
+ * board on phones/tablets too.
  */
 export default function GalleryPage() {
   const overlayRef = useRef(null);
@@ -23,17 +23,25 @@ export default function GalleryPage() {
     ...EXTRA_GALLERY_SLOTS,
   ];
 
-  const handleMouseMove = (e) => {
+  const moveFlashlightTo = (clientX, clientY) => {
     if (!boardRef.current || !overlayRef.current) return;
     const rect = boardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
     overlayRef.current.style.background = `radial-gradient(circle 220px at ${x}px ${y}px, transparent 0%, rgba(5,5,8,0.82) 70%)`;
   };
 
+  const handleMouseMove = (e) => moveFlashlightTo(e.clientX, e.clientY);
   const handleMouseLeave = () => {
     if (overlayRef.current) overlayRef.current.style.background = 'transparent';
   };
+
+  // Touch devices: drag a finger across the board to sweep the flashlight.
+  const handleTouchMove = (e) => {
+    const touch = e.touches[0];
+    if (touch) moveFlashlightTo(touch.clientX, touch.clientY);
+  };
+  const handleTouchEnd = handleMouseLeave;
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 pb-16 pt-8">
@@ -50,6 +58,8 @@ export default function GalleryPage() {
         ref={boardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
         className="relative"
       >
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
@@ -79,10 +89,10 @@ export default function GalleryPage() {
           ))}
         </div>
 
-        {/* Flashlight overlay — mouse-follow only, desktop/pointer devices */}
+        {/* Flashlight overlay — follows mouse hover or a dragged finger */}
         <div
           ref={overlayRef}
-          className="hidden md:block absolute inset-0 pointer-events-none transition-[background] duration-75 ease-out"
+          className="absolute inset-0 pointer-events-none transition-[background] duration-75 ease-out"
         />
       </div>
     </div>

@@ -30,20 +30,26 @@ export default function CharacterPage({ character }) {
   const removeItem = (idx) =>
     setInventory((prev) => prev.filter((_, i) => i !== idx));
 
-  // Subtle "pinned evidence photo" tilt that follows the cursor — applied
+  // Subtle "pinned evidence photo" tilt that follows the pointer — applied
   // via direct style mutation (not React state) so it stays smooth and
-  // never triggers a re-render on every mouse pixel.
-  const handlePhotoMove = (e) => {
+  // never triggers a re-render on every mouse pixel. Works with a mouse
+  // (hover) and, via touchmove, by dragging a finger over the photo too.
+  const tiltTo = (clientX, clientY) => {
     const el = photoRef.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
-    const px = (e.clientX - rect.left) / rect.width - 0.5;
-    const py = (e.clientY - rect.top) / rect.height - 0.5;
+    const px = (clientX - rect.left) / rect.width - 0.5;
+    const py = (clientY - rect.top) / rect.height - 0.5;
     el.style.transform = `perspective(700px) rotateX(${(-py * 10).toFixed(2)}deg) rotateY(${(px * 10).toFixed(2)}deg) scale(1.03)`;
   };
+  const handlePhotoMove = (e) => tiltTo(e.clientX, e.clientY);
   const resetPhotoTilt = () => {
     const el = photoRef.current;
     if (el) el.style.transform = 'perspective(700px) rotateX(0deg) rotateY(0deg) scale(1)';
+  };
+  const handlePhotoTouchMove = (e) => {
+    const touch = e.touches[0];
+    if (touch) tiltTo(touch.clientX, touch.clientY);
   };
 
   return (
@@ -65,6 +71,8 @@ export default function CharacterPage({ character }) {
             ref={photoRef}
             onMouseMove={handlePhotoMove}
             onMouseLeave={resetPhotoTilt}
+            onTouchMove={handlePhotoTouchMove}
+            onTouchEnd={resetPhotoTilt}
             style={{ transform: 'perspective(700px) rotateX(0deg) rotateY(0deg) scale(1)', transition: 'transform 0.15s ease-out' }}
             className="aspect-[3/4] w-full bg-noir-panel border border-noir-border flex flex-col items-center justify-center gap-2 shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
           >
