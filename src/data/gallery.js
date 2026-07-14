@@ -11,6 +11,7 @@ import skladPhpto from '../assets/skladPhpto.jpg';
 import whitePhoto from '../assets/whitePhoto.jpg';
 import carPhoto from '../assets/carPhoto.jpg';
 import purpurPhoto from '../assets/purpurPhoto.jpg';
+import pahpah from '../assets/pahpah.png';
 
 
 export const EXTRA_GALLERY_SLOTS = [
@@ -19,4 +20,5 @@ export const EXTRA_GALLERY_SLOTS = [
   { id: 'garage', label: 'Склад', photo: skladPhpto },
   { id: 'hq', label: 'Авто міс зеленої', photo: carPhoto },
   { id: 'phiolet', label: 'Містер фіолетовий', photo: purpurPhoto },
+  { id: 'phiolet', label: 'відстріл', photo: pahpah },
 ];
