@@ -113,13 +113,35 @@ body {
   animation: neon-flicker 6s linear infinite;
 }
 
+/* Page-switch entrance — fresh fade/rise each time App swaps the active page */
+@keyframes page-in {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.animate-page-in {
+  animation: page-in 0.35s ease-out;
+}
+
+/* Rotated "case stamp" badge — rubber-stamped case-file look */
+.case-stamp {
+  transform: rotate(-9deg);
+  border: 3px solid var(--color-crimson);
+  color: var(--color-crimson-light);
+  font-family: var(--font-display);
+  letter-spacing: 0.12em;
+  opacity: 0.85;
+  mix-blend-mode: screen;
+  box-shadow: 0 0 0 2px rgba(185, 28, 43, 0.15) inset;
+}
+
 /* Respect reduced-motion preferences and save battery on phones */
 @media (prefers-reduced-motion: reduce) {
   .animate-vignette-breathe,
   .animate-ember-rise,
   .animate-spotlight-sweep,
   .neon-flicker,
-  .animate-dice-spin {
+  .animate-dice-spin,
+  .animate-page-in {
     animation: none !important;
   }
 }

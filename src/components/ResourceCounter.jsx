@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { Plus, Minus } from 'lucide-react';
 import Icon from './IconMap';
 
@@ -5,6 +6,21 @@ export default function ResourceCounter({ resource, onChange }) {
   const { label, icon, value, min = 0, max = 999 } = resource;
 
   const clamp = (v) => Math.min(max, Math.max(min, v));
+
+  // Brief color pulse whenever the value changes, green for a gain, red
+  // for a loss — tactile feedback instead of the number just silently
+  // updating. Skips the pulse on first mount.
+  const prevValue = useRef(value);
+  const [pulse, setPulse] = useState(null);
+  useEffect(() => {
+    if (prevValue.current !== value) {
+      setPulse(value > prevValue.current ? 'up' : 'down');
+      prevValue.current = value;
+      const id = setTimeout(() => setPulse(null), 350);
+      return () => clearTimeout(id);
+    }
+    return undefined;
+  }, [value]);
 
   return (
     <div className="flex items-center justify-between gap-3 bg-noir-panel-2 border border-noir-border px-4 py-3">
@@ -23,7 +39,15 @@ export default function ResourceCounter({ resource, onChange }) {
         >
           <Minus className="w-4 h-4" />
         </button>
-        <span className="font-display text-2xl w-10 text-center text-bone tabular-nums">
+        <span
+          className={`font-display text-2xl w-10 text-center tabular-nums transition-all duration-200 ${
+            pulse === 'up'
+              ? 'text-green-400 scale-125'
+              : pulse === 'down'
+                ? 'text-crimson-light scale-125'
+                : 'text-bone scale-100'
+          }`}
+        >
           {value}
         </span>
         <button

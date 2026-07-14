@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Dices } from 'lucide-react';
 import { useDice } from '../context/DiceContext';
 
@@ -9,6 +10,21 @@ import { useDice } from '../context/DiceContext';
  */
 export default function DiceRoller() {
   const { lastRoll, rolling, history, rollDice } = useDice();
+
+  // While the dice context is "rolling", flash rapid random numbers —
+  // a little slot-machine flourish before the real result lands. Purely
+  // a display-layer effect; the actual rolled value still comes from
+  // DiceContext once and only once.
+  const [flash, setFlash] = useState(null);
+  useEffect(() => {
+    if (!rolling) return undefined;
+    const id = setInterval(() => {
+      setFlash(Math.floor(Math.random() * 100) + 1);
+    }, 45);
+    return () => clearInterval(id);
+  }, [rolling]);
+
+  const displayValue = rolling ? flash ?? '--' : lastRoll === null ? '--' : lastRoll;
 
   return (
     <div
@@ -36,11 +52,11 @@ export default function DiceRoller() {
             Кубик
           </span>
           <span
-            className={`font-display text-3xl sm:text-4xl leading-none text-crimson-light ${
-              rolling ? 'animate-dice-spin' : ''
+            className={`font-display text-3xl sm:text-4xl leading-none text-crimson-light tabular-nums ${
+              rolling ? 'blur-[0.5px]' : ''
             }`}
           >
-            {lastRoll === null ? '--' : lastRoll}
+            {displayValue}
           </span>
         </div>
 

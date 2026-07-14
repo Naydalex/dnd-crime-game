@@ -96,9 +96,11 @@ export default function App() {
           )}
         </nav>
 
-        {/* Active page */}
+        {/* Active page — fades/slides in fresh on every switch */}
         <main className="flex-1">
-          <ActiveComponent key={active.id} />
+          <div key={active.id} className="animate-page-in">
+            <ActiveComponent />
+          </div>
         </main>
 
         {/* Global dice roller — visible on every page except the Gallery */}

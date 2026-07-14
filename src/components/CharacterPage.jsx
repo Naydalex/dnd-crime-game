@@ -60,27 +60,34 @@ export default function CharacterPage({ character }) {
 
       <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6 mb-8">
         {/* Photo placeholder — tilts gently toward the cursor, like a pinned evidence photo */}
-        <div
-          ref={photoRef}
-          onMouseMove={handlePhotoMove}
-          onMouseLeave={resetPhotoTilt}
-          style={{ transform: 'perspective(700px) rotateX(0deg) rotateY(0deg) scale(1)', transition: 'transform 0.15s ease-out' }}
-          className="aspect-[3/4] w-full max-w-[280px] bg-noir-panel border border-noir-border flex flex-col items-center justify-center gap-2 mx-auto lg:mx-0 shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
-        >
-          {character.photoPlaceholder ? (
-            <img
-              src={character.photoPlaceholder}
-              alt={character.name}
-              className="w-full h-full object-cover pointer-events-none"
-            />
-          ) : (
-            <>
-              <User className="w-16 h-16 text-bone/20 pointer-events-none" strokeWidth={1} />
-              <span className="text-bone/30 text-xs font-body uppercase tracking-widest pointer-events-none">
-                Фото відсутнє
-              </span>
-            </>
-          )}
+        <div className="relative w-full max-w-[280px] mx-auto lg:mx-0">
+          <div
+            ref={photoRef}
+            onMouseMove={handlePhotoMove}
+            onMouseLeave={resetPhotoTilt}
+            style={{ transform: 'perspective(700px) rotateX(0deg) rotateY(0deg) scale(1)', transition: 'transform 0.15s ease-out' }}
+            className="aspect-[3/4] w-full bg-noir-panel border border-noir-border flex flex-col items-center justify-center gap-2 shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
+          >
+            {character.photoPlaceholder ? (
+              <img
+                src={character.photoPlaceholder}
+                alt={character.name}
+                className="w-full h-full object-cover pointer-events-none"
+              />
+            ) : (
+              <>
+                <User className="w-16 h-16 text-bone/20 pointer-events-none" strokeWidth={1} />
+                <span className="text-bone/30 text-xs font-body uppercase tracking-widest pointer-events-none">
+                  Фото відсутнє
+                </span>
+              </>
+            )}
+          </div>
+
+          {/* Rubber-stamped case badge, pinned to the corner of the photo */}
+          <span className="case-stamp absolute -top-3 -right-3 px-2 py-1 text-[10px] sm:text-xs bg-noir-black/70 pointer-events-none select-none">
+            СПРАВА ВІДКРИТА
+          </span>
         </div>
 
         {/* Description */}
