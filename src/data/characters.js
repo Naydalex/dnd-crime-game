@@ -5,6 +5,9 @@
 // best/rarest success), Easy has the highest threshold (widest window).
 
 import angelinaPhoto from '../assets/angelina.jpg';
+import annaPhoto from '../assets/anna.jpg';
+import egorPhoto from '../assets/egor.jpg'
+import olgaPhoto from '../assets/olga.jpg'
 
 export const CHARACTERISTIC_NAMES = [
   'Сила',
@@ -60,7 +63,7 @@ export const characters = [
       'Анна веде рахунки синдикату й одночасно прибирає за чужими помилками — у прямому сенсі. ' +
       'Ввічлива, спокійна, завжди у рукавичках. Одні бояться її револьвера, інші — флакона в кишені пальта, ' +
       'про який краще взагалі не питати. Носить фото сина й ніколи не залишає роботу незакінченою.',
-    photoPlaceholder: null,
+    photoPlaceholder: annaPhoto,
     resources: [
       { key: 'health', label: 'Здоров\'я', icon: 'Heart', value: 10, min: 0, max: 10 },
       { key: 'sanity', label: 'Глузд', icon: 'Brain', value: 50, min: 0, max: 99 },
@@ -95,7 +98,7 @@ export const characters = [
       'За кермом вона стає іншою людиною — холодною, зосередженою, безжальною. Завжди тримає під рукою ' +
       'бінти й ліхтарик — на цій роботі рідко все йде за планом. Поза кермом — просто хоче ' +
       'відкрити власний бар колись, коли все це закінчиться.',
-    photoPlaceholder: null,
+    photoPlaceholder: olgaPhoto,
     resources: [
       { key: 'health', label: 'Здоров\'я', icon: 'Heart', value: 14, min: 0, max: 14 },
       { key: 'sanity', label: 'Глузд', icon: 'Brain', value: 45, min: 0, max: 99 },
@@ -128,7 +131,7 @@ export const characters = [
       'Єгор говорить мало, б\'є влучно, і пам\'ятає кожне обличчя, яке колись перейшло дорогу родині. ' +
       'Емігрував з портового міста разом з дідівським ножем за поясом — тим самим, яким досі користується. ' +
       'Психологи родини кажуть, що йому варто "попрацювати над емоціями". Єгор просто киває і йде працювати далі.',
-    photoPlaceholder: null,
+    photoPlaceholder: egorPhoto,
     resources: [
       { key: 'health', label: 'Здоров\'я', icon: 'Heart', value: 12, min: 0, max: 12 },
       { key: 'sanity', label: 'Глузд', icon: 'Brain', value: 60, min: 0, max: 99 },
