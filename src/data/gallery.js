@@ -6,9 +6,15 @@
 //   2. Import it at the top of this file:
 //        import scenePhoto from '../assets/scene.jpg';
 //   3. Set `photo: scenePhoto` on the matching entry below (instead of null).
+import scenePhoto from '../assets/scene.jpg';
+import skladPhpto from '../assets/skladPhpto.jpg';
+import whitePhoto from '../assets/whitePhoto.jpg';
+import carPhoto from '../assets/carPhoto.jpg';
+
+
 export const EXTRA_GALLERY_SLOTS = [
-  { id: 'crime-scene', label: 'Місце злочину', photo: null },
-  { id: 'lucys-lounge', label: 'Бар "Лаунж Люсі"', photo: null },
-  { id: 'garage', label: 'Гараж', photo: null },
-  { id: 'hq', label: 'Штаб-квартира', photo: null },
+  { id: 'crime-scene', label: 'Поліція', photo: scenePhoto },
+  { id: 'lucys-lounge', label: 'Містер білий', photo: whitePhoto },
+  { id: 'garage', label: 'Склад', photo: skladPhpto },
+  { id: 'hq', label: 'Авто міс зеленої', photo: carPhoto },
 ];
