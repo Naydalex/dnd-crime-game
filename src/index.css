@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Bebas Neue", "Oswald", sans-serif;
+  --font-body: "Oswald", system-ui, sans-serif;
+
+  --color-noir-black: #0a0a0c;
+  --color-noir-panel: #131316;
+  --color-noir-panel-2: #1c1b1f;
+  --color-noir-border: #2c2a2e;
+  --color-crimson: #b91c2b;
+  --color-crimson-dark: #7f1220;
+  --color-crimson-light: #e63946;
+  --color-bone: #ede7dd;
+}
+
+html, body, #root {
+  height: 100%;
+  background-color: var(--color-noir-black);
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background-color: var(--color-noir-black);
+  color: var(--color-bone);
+  background-image:
+    radial-gradient(ellipse at top, rgba(185, 28, 43, 0.08), transparent 60%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 3px);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-noir-black);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-crimson-dark);
+  border-radius: 0;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.03em;
+}
+
+@keyframes dice-spin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.1); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+.animate-dice-spin {
+  animation: dice-spin 0.5s ease-in-out;
+}
+
+/* ---------- Ambient background atmosphere ---------- */
+
+@keyframes vignette-breathe {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+.animate-vignette-breathe {
+  animation: vignette-breathe 7s ease-in-out infinite;
+}
+
+@keyframes ember-rise {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--ember-opacity, 0.4);
+  }
+  90% {
+    opacity: var(--ember-opacity, 0.4);
+  }
+  100% {
+    transform: translate(var(--drift, 20px), -110vh);
+    opacity: 0;
+  }
+}
+.animate-ember-rise {
+  animation-name: ember-rise;
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
+  box-shadow: 0 0 6px 1px rgba(230, 57, 70, 0.6);
+}
+
+@keyframes spotlight-sweep {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50% { transform: translateY(40vh); opacity: 0.9; }
+}
+.animate-spotlight-sweep {
+  animation: spotlight-sweep 16s ease-in-out infinite;
+}
+
+/* Flickering neon sign effect, e.g. on the site logo */
+@keyframes neon-flicker {
+  0%, 3%, 6%, 100% { opacity: 1; text-shadow: 0 0 8px rgba(230, 57, 70, 0.75), 0 0 18px rgba(185, 28, 43, 0.45); }
+  4% { opacity: 0.4; text-shadow: none; }
+  7% { opacity: 0.85; text-shadow: 0 0 4px rgba(230, 57, 70, 0.4); }
+  41%, 43% { opacity: 0.6; text-shadow: none; }
+  42% { opacity: 1; text-shadow: 0 0 8px rgba(230, 57, 70, 0.75), 0 0 18px rgba(185, 28, 43, 0.45); }
+}
+.neon-flicker {
+  animation: neon-flicker 6s linear infinite;
+}
+
+/* Respect reduced-motion preferences and save battery on phones */
+@media (prefers-reduced-motion: reduce) {
+  .animate-vignette-breathe,
+  .animate-ember-rise,
+  .animate-spotlight-sweep,
+  .neon-flicker,
+  .animate-dice-spin {
+    animation: none !important;
+  }
+}
