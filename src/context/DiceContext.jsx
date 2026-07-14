@@ -13,7 +13,7 @@ export function DiceProvider({ children }) {
     window.setTimeout(() => {
       const result = Math.floor(Math.random() * 100) + 1;
       setLastRoll(result);
-      setHistory((h) => [result, ...h].slice(0, 8));
+      setHistory((h) => [result, ...h].slice(0, 20));
       setRolling(false);
     }, 400);
   }, []);
