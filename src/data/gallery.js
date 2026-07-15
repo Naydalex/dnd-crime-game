@@ -12,7 +12,7 @@ import whitePhoto from '../assets/whitePhoto.jpg';
 import carPhoto from '../assets/carPhoto.jpg';
 import purpurPhoto from '../assets/purpurPhoto.jpg';
 import pahpah from '../assets/pahpah.png';
-
+import olandangelina from '../assets/olandangelina.png';
 
 export const EXTRA_GALLERY_SLOTS = [
   { id: 'crime-scene', label: 'Поліція', photo: scenePhoto },
@@ -20,5 +20,8 @@ export const EXTRA_GALLERY_SLOTS = [
   { id: 'garage', label: 'Склад', photo: skladPhpto },
   { id: 'hq', label: 'Авто міс зеленої', photo: carPhoto },
   { id: 'phiolet', label: 'Містер фіолетовий', photo: purpurPhoto },
-  { id: 'phiolet', label: 'відстріл', photo: pahpah },
+  { id: 'pahpah', label: 'Відстріл', photo: pahpah },
+  { id: 'olandangelina', label: 'Обмін', photo: olandangelina },
+
 ];
+
